@@ -1,25 +1,34 @@
 // Update with your config settings.
-import path from 'path';
+import dotenv from 'dotenv'
+import path from 'path'
+dotenv.config()
 
 module.exports = {
 
   development: {
-    client: 'sqlite3',
+    client: process.env.DB_CLIENT || 'root',
     connection: {
-      filename: path.resolve(__dirname, 'src', 'database', 'database.sqlite')
+      database: process.env.DB_DATABASE || 'root',
+      user: process.env.DB_USERNAME || 'root',
+      password: process.env.DB_PASSWORD || 'root'
     },
-    migrations:{
+    migrations: {
       directory: path.resolve(__dirname, 'src', 'database', 'migrations'),
       extension: 'ts'
-    },useNullAsDefault: true
-    
+    },
+    seeds: {
+      directory: path.resolve(__dirname, 'src', 'database', 'seeds'),
+      extension: 'ts'
+    },
+    useNullAsDefault: true
+
   },
 
   staging: {
     client: 'postgresql',
     connection: {
       database: 'my_db',
-      user:     'username',
+      user: 'username',
       password: 'password'
     },
     pool: {
@@ -35,7 +44,7 @@ module.exports = {
     client: 'postgresql',
     connection: {
       database: 'my_db',
-      user:     'username',
+      user: 'username',
       password: 'password'
     },
     pool: {
@@ -47,4 +56,4 @@ module.exports = {
     }
   }
 
-};
+}
