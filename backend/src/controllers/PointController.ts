@@ -4,6 +4,20 @@ import { Request, Response } from 'express'
 class Point {
   async index (req: Request, res: Response) {
     const { city, uf, items } = req.query
+
+    const parsedItem = String(items)
+      .split(',')
+      .map(item => Number(item.trim()))
+
+    const point = await knex('points')
+      .join('point_items', 'points.id', '=', 'point_items.id_point')
+      .whereIn('point_items.id_item', parsedItem)
+      .where('city', String(city))
+      .where('uf', String(uf))
+      .distinct()
+      .select('points.*')
+
+    return res.json(point)
   }
 
   async store (req: Request, res: Response) {
@@ -28,9 +42,9 @@ class Point {
       city,
       uf
     }
+    const trx = await knex.transaction()
 
     try {
-      const trx = await knex.transaction()
       const pointIDreturning = await trx('points').insert(point).returning('id')
       const id_point = Number(pointIDreturning)
 
@@ -43,12 +57,15 @@ class Point {
 
       await trx('point_items').insert(point_items)
 
-      trx.commit()
+      await trx.commit()
+
       if (trx.isCompleted() === false) {
         return res.json({ sucess: false })
       }
       return res.json({ id_point, ...point })
     } catch (error) {
+      await trx.rollback()
+
       return res.json({ error: true })
     }
   }

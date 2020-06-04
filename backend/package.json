@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules --no-notify --respawn src/server.ts"
+    "dev": "ts-node-dev --transpile-only --clear --no-notify --respawn src/server.ts"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
