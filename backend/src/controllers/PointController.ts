@@ -2,6 +2,10 @@ import knex from '../database/index'
 import { Request, Response } from 'express'
 
 class Point {
+  async index (req: Request, res: Response) {
+    const { city, uf, items } = req.query
+  }
+
   async store (req: Request, res: Response) {
     const {
       name,
@@ -39,13 +43,39 @@ class Point {
 
       await trx('point_items').insert(point_items)
 
-      if (trx.isCompleted() === true) {
+      trx.commit()
+      if (trx.isCompleted() === false) {
         return res.json({ sucess: false })
       }
       return res.json({ id_point, ...point })
     } catch (error) {
       return res.json({ error: true })
     }
+  }
+
+  async show (req: Request, res: Response) {
+    const { id } = req.params
+
+    // Posso omitir o select()
+    const point = await knex('points')
+      .where('id', id)
+      .first()
+
+    if (!point) {
+      return res.status(400).json({ msg: 'Point not found' })
+    }
+
+    const item = await knex('items')
+      .join('point_items', 'items.id', '=', 'point_items.id_item')
+      .where('point_items.id_point', id)
+      .select('title')
+
+    const result = [
+      point, {
+        item
+      }
+    ]
+    return res.json(result)
   }
 }
 
