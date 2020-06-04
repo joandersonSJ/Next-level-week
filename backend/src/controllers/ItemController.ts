@@ -1,7 +1,7 @@
 import knex from '../database/index'
 import { Request, Response } from 'express'
 
-export default {
+class Item {
   async index (req:Request, res:Response) {
     const items = await knex('items').select('*')
 
@@ -16,3 +16,5 @@ export default {
     return res.json(serializedItem)
   }
 }
+
+export default new Item()

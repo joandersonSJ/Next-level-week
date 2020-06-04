@@ -1,7 +1,7 @@
 import knex from '../database/index'
 import { Request, Response } from 'express'
 
-export default {
+class Point {
   async store (req: Request, res: Response) {
     const {
       name,
@@ -14,7 +14,7 @@ export default {
       items
     } = req.body
 
-    const id = await knex('points').insert({
+    const point = {
       image: 'image-fake',
       name,
       email,
@@ -23,17 +23,30 @@ export default {
       longitude,
       city,
       uf
-    }).returning('id')
+    }
 
-    const point_items = items.map((id_item: Number) => {
-      return {
-        id_item,
-        id_point: +id
+    try {
+      const trx = await knex.transaction()
+      const pointIDreturning = await trx('points').insert(point).returning('id')
+      const id_point = Number(pointIDreturning)
+
+      const point_items = items.map((id_item: Number) => {
+        return {
+          id_item,
+          id_point
+        }
+      })
+
+      await trx('point_items').insert(point_items)
+
+      if (trx.isCompleted() === true) {
+        return res.json({ sucess: false })
       }
-    })
-
-    await knex('point_items').insert(point_items)
-
-    return res.json({ sucess: true })
+      return res.json({ id_point, ...point })
+    } catch (error) {
+      return res.json({ error: true })
+    }
   }
 }
+
+export default new Point()
