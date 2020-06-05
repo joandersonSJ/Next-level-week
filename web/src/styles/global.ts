@@ -9,7 +9,7 @@ export default createGlobalStyle`
     box-sizing: border-box;
     overflow: 0;
     font-family: 'Roboto', sans-serif;
-    font: 400;
+    font-weight: 400;
   }
 
 `;
