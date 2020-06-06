@@ -5,17 +5,17 @@ declare module 'styled-components'{
     title: string,
     colors: {
       background: {
-        background_green: string,
-        background_grey: string,
-        background_blue: string
+        primary_color: string,
+        secondary_color: string,
       },
       texts: {
-        text: string,
-        texts_suport: string
+        text_color: string,
+        title_color: string,
+        texts_suport: string,
       },
       others: {
         desaturado: string,
-        blocks: string
+        blocks: string,
       },
     },
   }

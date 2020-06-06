@@ -2,12 +2,12 @@ export default {
   title: 'light',
   colors: {
     background: {
-      background_green: '#34CB79',
-      background_grey: '#F0F0F5',
-      background_blue: '#322153',
+      primary_color: '#34CB79',
+      secondary_color: '#F0F0F5',
     },
     texts: {
-      text: '#6C6C80',
+      text_color: '#6C6C80',
+      title_color: '#322153',
       texts_suport: '#A0A0B2',
     },
     others: {

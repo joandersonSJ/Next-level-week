@@ -21,6 +21,7 @@
   },
   "include": [
     "src",
+    "src/styles/themes/themes.d.ts"
   ],
   "files": [
     "src/styles/themes/themes.d.ts"
