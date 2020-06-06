@@ -1,10 +1,15 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  #page-home {
-  height: 100vh;
 
-  background: url('../../assets/home-background.svg') no-repeat 600px bottom;
+#container-centralizar{
+  /* align-items: center; */
+  display: flex;
+  justify-content: space-between;
+}
+
+#page-home {
+  height: 100vh;
 }
 
 #page-home .content {
@@ -20,7 +25,11 @@ export const Container = styled.div`
 }
 
 #page-home .content header {
-  margin: 48px 0 0;
+  margin: 44px 0 0;
+  display: flex;
+  width: 95%;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 #page-home .content main {
@@ -34,7 +43,7 @@ export const Container = styled.div`
 
 #page-home .content main h1 {
   font-size: 54px;
-  color: var(--title-color);
+  color: ${(props) => props.theme.colors.texts.title_color};
 }
 
 #page-home .content main p {
@@ -47,7 +56,7 @@ export const Container = styled.div`
   width: 100%;
   max-width: 360px;
   height: 72px;
-  background: var(--primary-color);
+  background: ${(props) => props.theme.colors.background.primary_color};
   border-radius: 8px;
   text-decoration: none;
 
@@ -109,4 +118,21 @@ export const Container = styled.div`
   }
 }
 
+`;
+
+export const Button = styled.button`
+  background: none;
+  border:none;
+  cursor: pointer;
+
+  svg{
+    color: ${(props) => props.theme.colors.texts.text_color};
+    height: 38px;
+    width: 38px;
+    transition: filter 0.4s;
+  }
+
+  svg:hover{
+    filter: brightness(50%);
+  }
 `;
