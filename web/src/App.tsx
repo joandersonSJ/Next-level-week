@@ -1,14 +1,11 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import Home from './pages/Home';
-import GlobalStyle from './styles/global';
 import light from './styles/themes/light';
-
+import Router from './routes';
 
 const App: React.FC = () => (
   <ThemeProvider theme={light}>
-    <Home />
-    <GlobalStyle />
+    <Router />
   </ThemeProvider>
 );
 
